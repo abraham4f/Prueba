@@ -1,0 +1,52 @@
+Complemento de Gitea para jenkins(Enlazados entre ambos)
+URL_DOC=https://plugins.jenkins.io/gitea/
+
+Gitea:
+Gitea Actions es muy parecido a , se ha creado basado en Github Actions.
+EL runner de GITEA ACTIONS es llamado act_runner, escrito en GO, basado en una bifurcación de nektos/act.
+Se debe ejecutar en un servidor distinto a Gitea.
+Problemas: Se implementa de forma independiente a cada repositorio, organización o instancía, tendríamos que aplicarselo a todas una a una, también podría haber problemas de seguridad al implementarlo de forma independiente.
+Todavía está en desarrollo actualizarla periódicamente última versión (0.2.6).
+Está creciendo más rapido ya que jenkins, se está quedando obsoleto.
+Esta diseñado específicamente para trabajar con reposiotorios en Gitea mientras que Jenkins puede abarcar varios sistemas de control.
+
+Gitea Actions esta es más adecuado para proyectos de pequeña a mediana escala mientras que jenkins esta más predefinido para proyectos más amplios.
+
+Lista de los Plugins más utilizados y los más recomendados para cada solución:
+Gitea-Discord-Webhook:Envía notificaciones actualizaciones de actividad de repositorios a canales de Discors.
+Gitea-Server-Status:Panel de control de estado del servidor de Gitea.
+Gitea-GitHub-Mirror:Permite sinctronizar repositorios Gitea con GitHub.
+Gitea-Matomo:Plataforma de análisis web de codigo abierto.
+Gitea-Weblate:Gestiona traducciones.
+Gitea-Release:Facilita la gestión, creación y lanzamiento de software desde Gitea.
+
+
+Distintas formas de instalar ACT_RUNNER:https://docs.gitea.com/usage/actions/act-runner
+Configurar el runner con docker:
+https://github.com/vegardit/docker-gitea-act-runner
+
+version: "3.8"
+services:
+  runner:
+    image: gitea/act_runner:nightly#Version noche 
+    environment:
+      CONFIG_FILE: /config.yaml
+      GITEA_INSTANCE_URL: "${INSTANCE_URL}"
+      GITEA_RUNNER_REGISTRATION_TOKEN: "${REGISTRATION_TOKEN}"
+      GITEA_RUNNER_NAME: "${RUNNER_NAME}"
+      GITEA_RUNNER_LABELS: "${RUNNER_LABELS}"
+    volumes:
+      - ./config.yaml:/config.yaml
+      - ./data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+
+Jenkins:
+Principales problemas: muchos complementos ya no reciben mantenimiento, hay algunos problemas de compatibilidad con el nuevo estilo de canalización declarativa.
+Jenkins está más establecido en el sector, ya que Gitea Actions tiene poco apoyo de la comunidad para ellas.
+Tiene una amplia variedad de complementos pero no están actualizados periódicamente
+
+Sigue siendo la herramienta CI/CD más utilizada a dia de hoy
+Jenkins tiene una comunidad mucho mayor por lo cual tiene muchos más complementos y recursos.
+
+Ruta Predeterminada de los paquetes: \data\*nombre*\packages
